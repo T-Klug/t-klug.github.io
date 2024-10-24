@@ -3,6 +3,8 @@ title: Delivering Truly Self-Contained React Components with Apollo
 date: 2024-10-24
 categories: [Technology, Frontend]
 tags: [microfrontends]     # TAG names should always be lowercase
+author: TJ
+image: /assets/img/microfrontends.jpeg
 ---
 
 ## Introduction
