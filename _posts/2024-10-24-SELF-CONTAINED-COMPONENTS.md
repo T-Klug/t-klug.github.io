@@ -1,11 +1,9 @@
 ---
-title: Self contained components with Apollo
+title: Delivering Truly Self-Contained React Components with Apollo
 date: 2024-10-24
 categories: [Technology, Frontend]
 tags: [microfrontends]     # TAG names should always be lowercase
 ---
-
-# Delivering Truly Self-Contained React Components with Apollo
 
 ## Introduction
 
@@ -17,7 +15,7 @@ As a principal architect on a platform team, I wanted to solve this problem and 
 
 The first issue I encountered was that our Apollo configuration was becoming unwieldy—every consuming team’s Apollo setup knew about every AppSync for every service. This wouldn't do. Initially, I tried using context names to choose which link to use. Below is an example of using Apollo Link with multiple endpoints:
 
-```typescript
+```
 const httpLinks = ApolloLink.split(
   (operation) => operation.getContext().endpoint === AuditEndpointName,
   auditLink,
@@ -51,7 +49,7 @@ This configuration would be complicated to maintain as we added more services an
 
 My next idea was to have multiple Apollo clients without them conflicting. Unfortunately, simply nesting Apollo providers like this:
 
-```typescript
+```
 <ApolloProvider>
   <ApolloProvider>
     ...
