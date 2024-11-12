@@ -29,13 +29,13 @@ inputs:
 outputs:
   selected_account:
     description: 'Selected AWS Account'
-    value: ${{ steps.determine-developers.outputs.selected_account }}
+    value: ${ steps.determine-developers.outputs.selected_account }
   selected_user:
     description: 'Selected User'
-    value: ${{ steps.determine-developers.outputs.selected_user }}
+    value: ${ steps.determine-developers.outputs.selected_user }
   matrix:
     description: 'Matrix of users and accounts'
-    value: ${{ steps.determine-developers.outputs.matrix }}
+    value: ${ steps.determine-developers.outputs.matrix }
 
 runs:
   using: 'composite'
@@ -43,24 +43,24 @@ runs:
     - name: Install Packages
       run: npm ci
       shell: bash
-      working-directory: ${{ github.action_path }}
+      working-directory: ${ github.action_path }
 
     - name: Determine Developers
       id: determine-developers
       shell: bash
       env:
-        GITHUB_ACTOR: ${{ inputs.github-username }}
-        TEAMS: ${{ inputs.teams }}
+        GITHUB_ACTOR: ${ inputs.github-username }
+        TEAMS: ${ inputs.teams }
       run: |
         npx ts-node determine-dev-env.ts
-      working-directory: ${{ github.action_path }}
+      working-directory: ${ github.action_path }
 ```
 
 This example demonstrates a shared action to determine a developer or multiple developers to deploy to. The first part to keep in mind is to define both your inputs and outputs since it's a composite action. This action in particular will return a single developer's or multiple developers' information for deployment based on either the GitHub username or the selected teams.
 
 ## The Runs Section
 
-The first step of the action is to install the necessary packages - you simply include a package.json in the action folder for this. You can then do `npm ci` and the working directory will be `${{github.action_path}}`. This is very convenient as it keeps your action's packages separate from the consumer's packages. Next, we use a bash script with a single line: `npx ts-node determine-dev-env.ts`, again using the action_path. This setup allows you to run TypeScript files directly, opening up lots of possibilities for testing and complex logic.
+The first step of the action is to install the necessary packages - you simply include a package.json in the action folder for this. You can then do `npm ci` and the working directory will be `${github.action_path}`. This is very convenient as it keeps your action's packages separate from the consumer's packages. Next, we use a bash script with a single line: `npx ts-node determine-dev-env.ts`, again using the action_path. This setup allows you to run TypeScript files directly, opening up lots of possibilities for testing and complex logic.
 
 ## The TypeScript File
 
