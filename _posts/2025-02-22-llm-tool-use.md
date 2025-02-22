@@ -4,7 +4,7 @@ date: 2025-02-22
 categories: [LLM, ToolUse]
 tags: [llm, tooluse, typescript]     # TAG names should always be lowercase
 author: TJ
-image: /assets/img/tooluse.jpeg
+image: /assets/img/tooluse.jpg
 ---
 
 
