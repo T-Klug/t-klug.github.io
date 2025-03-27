@@ -112,28 +112,28 @@ Now that we have a workflow to update a dependency in a single repository, we ne
 
 ```yaml
     - name: Get package version
-              id: package-version
-              run: |
-                  echo "version=$(cat package.json | jq -r '.version')" >> $GITHUB_OUTPUT
+      id: package-version
+      run: |
+        echo "version=$(cat package.json | jq -r '.version')" >> $GITHUB_OUTPUT
 
     - name: Trigger downstream repositories
-              env:
-                  GH_TOKEN: ${{ secrets.WORKFLOW_DISPATCH_PAT }} # Personal access token with workflow permissions
-                  VERSION: ${{ steps.package-version.outputs.version }}
-              run: |
-                  # List of downstream repositories to trigger
-                  REPOS=(
-                   "github/repo"
-                  )
+      env:
+        GH_TOKEN: ${{ secrets.WORKFLOW_DISPATCH_PAT }} # Personal access token with workflow permissions
+        VERSION: ${{ steps.package-version.outputs.version }}
+      run: |
+        # List of downstream repositories to trigger
+        REPOS=(
+        "github/repo"
+        )
 
-                  for REPO in "${REPOS[@]}"; do
-                    echo "Triggering workflow in $REPO"
-                    curl -X POST \
-                      -H "Authorization: token $GH_TOKEN" \
-                      -H "Accept: application/vnd.github.v3+json" \
-                      https://api.github.com/repos/$REPO/actions/workflows/update-dependency.yml/dispatches \
-                      -d "{\"ref\":\"main\",\"inputs\":{\"package_name\":\"Package Name here",\"package_version\":\"$VERSION\"}}"
-                  done
+        for REPO in "${REPOS[@]}"; do
+        echo "Triggering workflow in $REPO"
+        curl -X POST \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPO/actions/workflows/update-dependency.yml/dispatches \
+            -d "{\"ref\":\"main\",\"inputs\":{\"package_name\":\"Package Name here",\"package_version\":\"$VERSION\"}}"
+        done
 ```
 
 This code first extracts the current package version from your `package.json` file, then triggers the update dependency workflow in each downstream repository using the GitHub API.
