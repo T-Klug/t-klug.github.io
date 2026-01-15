@@ -1,6 +1,6 @@
 ---
 title: The AI-DLC. Why Your SDLC Is Holding Back Your Engineering Velocity
-date: 2025-01-15
+date: 2026-01-15
 categories: [Technology, AI, Engineering]
 tags: [ai, agents, engineering, development, sdlc]
 author: TJ
