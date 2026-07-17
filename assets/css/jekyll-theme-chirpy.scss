@@ -10,9 +10,14 @@
 
 /* append your custom style below */
 
-/* Show the full post header image instead of the theme's 40/21 center-crop */
-img.preview-img {
+/* Show the full post header image instead of the theme's 40/21 center-crop.
+   The class sits on the <a> wrapper; the inner <img> has its own cover rule. */
+.preview-img {
   aspect-ratio: auto;
   height: auto;
-  object-fit: contain;
+
+  img {
+    height: auto;
+    object-fit: contain;
+  }
 }
