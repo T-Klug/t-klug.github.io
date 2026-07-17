@@ -1,0 +1,18 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* Show the full post header image instead of the theme's 40/21 center-crop */
+img.preview-img {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
+}
