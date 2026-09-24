@@ -6,10 +6,12 @@ import { getPosts, summarize, type PostSummary } from '../../lib/posts';
 export async function getStaticPaths() {
   const posts = await getPosts();
   const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
-  return tags.map((tag) => ({
-    params: { tag },
-    props: { posts: posts.filter((post) => post.data.tags.includes(tag)).map(summarize) },
-  }));
+  return Promise.all(
+    tags.map(async (tag) => ({
+      params: { tag },
+      props: { posts: await Promise.all(posts.filter((post) => post.data.tags.includes(tag)).map(summarize)) },
+    })),
+  );
 }
 
 interface Props {
