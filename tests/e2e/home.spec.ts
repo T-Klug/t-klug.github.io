@@ -29,12 +29,13 @@ test.describe('home page', () => {
     await page.goto('/');
     const rows = page.locator('#posts .rows a');
     const engineering = POSTS.filter((post) => post.topic === 'ai-engineering').length;
-    // The list hydrates when the browser goes idle; Astro drops the `ssr` attribute once it has.
+    // The list hydrates as it nears the viewport; Astro drops the `ssr` attribute once it has.
+    await page.locator('#posts').scrollIntoViewIfNeeded();
     await expect(page.locator('#posts astro-island')).not.toHaveAttribute('ssr');
 
     await page.getByRole('button', { name: 'AI Engineering' }).click();
     await expect(rows).toHaveCount(engineering);
-    await expect(page).toHaveURL(/\?topic=ai-engineering/);
+    await expect(page).toHaveURL(/\?topic=ai-engineering#posts$/);
 
     await page.reload();
     await expect(rows).toHaveCount(engineering);

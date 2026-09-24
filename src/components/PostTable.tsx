@@ -28,8 +28,13 @@ function topicFromUrl(): TopicId | null {
 
 function setTopicInUrl(topic: TopicId | null) {
   const url = new URL(window.location.href);
-  if (topic) url.searchParams.set('topic', topic);
-  else url.searchParams.delete('topic');
+  if (topic) {
+    url.searchParams.set('topic', topic);
+    // A shared filtered link should open at the list, which also makes it hydrate right away.
+    url.hash = 'posts';
+  } else {
+    url.searchParams.delete('topic');
+  }
   window.history.replaceState(null, '', url);
   window.dispatchEvent(new Event(URL_CHANGE));
 }

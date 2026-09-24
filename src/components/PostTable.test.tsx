@@ -76,6 +76,7 @@ describe('PostTable', () => {
     expect(rows()[0]).toHaveTextContent('1,500 tests');
     expect(screen.getByRole('button', { name: 'AI in Operations' })).toHaveAttribute('aria-pressed', 'true');
     expect(window.location.search).toBe('?topic=ai-operations');
+    expect(window.location.hash).toBe('#posts');
 
     await user.click(screen.getByRole('button', { name: 'All' }));
     expect(rows()).toHaveLength(3);

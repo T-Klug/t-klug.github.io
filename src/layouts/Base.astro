@@ -70,21 +70,32 @@ const analyticsId = import.meta.env.PROD ? SITE.analyticsId : null;
         // Storage blocked: keep the dark default.
       }
     </script>
-    {analyticsId && (
-      <>
-        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}></script>
-        <script is:inline define:vars={{ analyticsId }}>
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            // gtag.js expects the arguments object itself, not an array.
-            // eslint-disable-next-line prefer-rest-params
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', analyticsId);
-        </script>
-      </>
-    )}
+    {analyticsId && <script is:inline define:vars={{ analyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        // gtag.js expects the arguments object itself, not an array.
+        // eslint-disable-next-line prefer-rest-params
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', analyticsId);
+      // gtag.js is ~175 KB and the heaviest main-thread work on a phone. Fetch it after the
+      // page has finished loading, or on the first interaction if that comes sooner; the page
+      // view queued above is sent then.
+      let analyticsLoaded = false;
+      function loadAnalytics() {
+        if (analyticsLoaded) return;
+        analyticsLoaded = true;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
+        document.head.append(script);
+      }
+      addEventListener('load', () => setTimeout(loadAnalytics, 3000));
+      for (const type of ['pointerdown', 'keydown', 'scroll']) {
+        addEventListener(type, loadAnalytics, { once: true, passive: true });
+      }
+    </script>}
   </head>
   <body>
     <a class="skip" href="#main">
