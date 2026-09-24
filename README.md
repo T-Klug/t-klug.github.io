@@ -42,7 +42,7 @@ Posts are served at `/posts/<slug>/`, the same URLs the old Jekyll site used. Po
 | ------------------- | --------------------------------------------------------------------------------------------------------- |
 | `npm run check`     | Type check, front matter schema, ESLint, Prettier, markdownlint, unit tests, production build, link check |
 | `npm run test:e2e`  | Playwright in Chromium, WebKit and a phone viewport, including axe accessibility checks in both themes    |
-| `npm run test:perf` | Lighthouse CI against the built site with score and page-weight budgets                                   |
+| `npm run test:perf` | Lighthouse (mobile and desktop) against the built site with score and page-weight budgets                 |
 | `npm run check:all` | All of the above                                                                                          |
 | `npm run format`    | Fix formatting and Markdown lint issues                                                                   |
 

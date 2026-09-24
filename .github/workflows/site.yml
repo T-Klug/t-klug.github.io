@@ -46,7 +46,7 @@ jobs:
           name: reports
           path: |
             playwright-report
-            .lighthouseci
+            lighthouse-report
           retention-days: 14
 
       # Pages has no pull-request previews, so attach the built site for review.

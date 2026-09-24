@@ -8,7 +8,7 @@ dist
 # Test output
 playwright-report
 test-results
-.lighthouseci
+lighthouse-report
 
 # Editors and OS
 .idea

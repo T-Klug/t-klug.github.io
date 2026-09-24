@@ -25,6 +25,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [react(), mdx()],
   redirects: legacyRedirects,
+  // The stylesheet is ~5 KB gzipped; inlining it removes the render-blocking request on slow phones.
+  build: { inlineStylesheets: 'always' },
   markdown: {
     shikiConfig: {
       themes: { light: 'github-light-default', dark: 'github-dark-default' },
