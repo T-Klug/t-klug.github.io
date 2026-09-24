@@ -1,0 +1,138 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { dotDate, excerpt, isoDate, readingMinutes, wordCount } from '../../lib/format';
+import { getPosts, postUrl, tagUrl, type Post } from '../../lib/posts';
+import { TOPICS } from '../../lib/topics';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const body = post.body ?? '';
+const sections = headings.filter((heading) => heading.depth === 2);
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description ?? excerpt(body)}
+  image={post.data.image}
+  article={{ published: post.data.date, tags: post.data.tags }}
+  section="posts"
+>
+  <article class="wrap">
+    <header class="post-head">
+      <p class="eyebrow">
+        <a href={`/?topic=${post.data.topic}#posts`}>{TOPICS[post.data.topic]}</a>
+      </p>
+      <h1 class="display">{post.data.title}</h1>
+      <div class="meta">
+        <span>
+          Published{' '}
+          <b>
+            <time datetime={isoDate(post.data.date)}>{dotDate(post.data.date)}</time>
+          </b>
+        </span>
+        <span>
+          Read <b>{readingMinutes(body)} min</b>
+        </span>
+        <span>
+          Words <b>{wordCount(body).toLocaleString('en-US')}</b>
+        </span>
+      </div>
+      <Image
+        class="post-hero"
+        src={post.data.image}
+        alt=""
+        width={1600}
+        widths={[640, 1060, 1600]}
+        sizes="(max-width: 1060px) 100vw, 1000px"
+        format="webp"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </header>
+
+    <div class="post-cols">
+      {sections.length > 1 ? (
+        <nav class="toc" aria-label="Contents">
+          <p>Contents</p>
+          {sections.map((heading) => (
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </nav>
+      ) : (
+        <div />
+      )}
+      <div class="prose">
+        <Content />
+        <footer class="post-foot">
+          {post.data.tags.length > 0 && (
+            <ul class="tags" aria-label="Tags">
+              {post.data.tags.map((tag) => (
+                <li>
+                  <a href={tagUrl(tag)}>#{tag}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </footer>
+      </div>
+    </div>
+
+    {(newer || older) && (
+      <nav class="pager" aria-label="More posts">
+        {older ? (
+          <a class="cell" href={postUrl(older.id)}>
+            <div class="lab">← Older</div>
+            <h3 class="display">{older.data.title}</h3>
+          </a>
+        ) : (
+          <span class="cell" />
+        )}
+        {newer ? (
+          <a class="cell next" href={postUrl(newer.id)}>
+            <div class="lab">Newer →</div>
+            <h3 class="display">{newer.data.title}</h3>
+          </a>
+        ) : (
+          <span class="cell" />
+        )}
+      </nav>
+    )}
+  </article>
+</Base>
+
+<script>
+  // Mark the contents entry for the section being read.
+  const links = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>('.toc a')].map((a) => [decodeURIComponent(a.hash.slice(1)), a]),
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        links.get(entry.target.id)?.setAttribute('aria-current', 'true');
+      }
+    },
+    { rootMargin: '0px 0px -70% 0px' },
+  );
+  links.forEach((_, id) => {
+    const heading = document.getElementById(id);
+    if (heading) observer.observe(heading);
+  });
+</script>

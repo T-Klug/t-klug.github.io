@@ -1,0 +1,12 @@
+{
+  // Checks the posts only. Rules here are about structure, not prose style.
+  "globs": ["src/content/**/*.{md,mdx}"],
+  "config": {
+    "default": true,
+    "MD013": false, // line length: prose is one line per paragraph
+    "MD033": false, // inline HTML is allowed in posts
+    "MD041": false, // posts open with a paragraph; the title comes from front matter
+    "MD060": false, // table pipe spacing is cosmetic
+    "MD036": false, // bold lead-in lines are a writing choice
+  },
+}

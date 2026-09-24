@@ -1,43 +1,70 @@
-# Chirpy Starter
+# tjklug.com
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+Personal site and blog of TJ Klug. Built with [Astro](https://astro.build) and React, deployed to GitHub Pages by GitHub Actions.
 
-When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jekyll can only read files in the folders
-`_data`, `_layouts`, `_includes`, `_sass` and `assets`, as well as a small part of options of the `_config.yml` file
-from the theme's gem. If you have ever installed this theme gem, you can use the command
-`bundle info --path jekyll-theme-chirpy` to locate these files.
+## Run it locally
 
-The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being
-able to enjoy the out-of-the-box experience when using feature-rich themes.
+Requires Node 22 or newer.
 
-To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your
-Jekyll site. The following is a list of targets:
-
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
+```sh
+npm install
+npx playwright install chromium webkit   # once, for the browser tests
+npm run dev                               # http://localhost:4321, reloads on save
 ```
 
-To save you time, and also in case you lose some files while copying, we extract those files/configurations of the
-latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
+## Write a post
 
-## Usage
+```sh
+npm run new -- "Post title" --topic ai-engineering
+```
 
-Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
+This creates `src/content/posts/YYYY-MM-DD-slug.md` as a draft. Add the header image it names under `src/assets/img/`, write the post, and remove `draft: true` to publish. Drafts only show in `npm run dev`.
 
-## Contributing
+Front matter:
 
-This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
+| Field         | Required | Notes                                                               |
+| ------------- | -------- | ------------------------------------------------------------------- |
+| `title`       | yes      |                                                                     |
+| `date`        | yes      | Must match the date in the filename                                 |
+| `topic`       | yes      | `ai-operations`, `ai-engineering` or `frontend-devops`              |
+| `image`       | yes      | Relative path to the header image, e.g. `../../assets/img/slug.png` |
+| `tags`        | no       | Lowercase, hyphenated                                               |
+| `description` | no       | Search and link-preview text. Defaults to the first paragraph       |
+| `featured`    | no       | `1`, `2` or `3`: position on the home page. Needs `stat`            |
+| `stat`        | no       | `value` and `label` shown on the featured card                      |
+| `draft`       | no       | `true` keeps it off the live site                                   |
+
+Posts are served at `/posts/<slug>/`, the same URLs the old Jekyll site used. Posts can also be `.mdx` to embed React components.
+
+## Checks
+
+| Command             | What it runs                                                                                              |
+| ------------------- | --------------------------------------------------------------------------------------------------------- |
+| `npm run check`     | Type check, front matter schema, ESLint, Prettier, markdownlint, unit tests, production build, link check |
+| `npm run test:e2e`  | Playwright in Chromium, WebKit and a phone viewport, including axe accessibility checks in both themes    |
+| `npm run test:perf` | Lighthouse CI against the built site with score and page-weight budgets                                   |
+| `npm run check:all` | All of the above                                                                                          |
+| `npm run format`    | Fix formatting and Markdown lint issues                                                                   |
+
+Git hooks (installed by `npm install`): formatting and lint on staged files at commit, `npm run check` before push.
+
+The link check (`scripts/check-links.mjs`) also confirms every URL from the old site's sitemap, listed in `tests/fixtures/legacy-urls.txt`, still resolves. Old category and archive pages redirect to the matching topic filter on the home page.
+
+## Deploy
+
+Pushing to `main` runs every check in `.github/workflows/site.yml` and deploys to GitHub Pages only if they pass. Pull requests run the same checks and attach the built site and test reports as artifacts.
+
+## Layout
+
+```text
+src/content/posts/   posts (Markdown or MDX)
+src/assets/img/      post images and the headshot, optimized at build time
+src/data/site.ts     bio, links, experience and numbers for the home and About pages
+src/components/      React islands (post table, theme toggle) and Astro components
+src/pages/           routes, RSS feed (/feed.xml) and sitemap (/sitemap.xml)
+tests/               unit tests, Playwright specs and the legacy URL list
+```
 
 ## License
 
-This work is published under [MIT][mit] License.
-
-[gem]: https://rubygems.org/gems/jekyll-theme-chirpy
-[chirpy]: https://github.com/cotes2020/jekyll-theme-chirpy/
-[CD]: https://en.wikipedia.org/wiki/Continuous_deployment
-[mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+Code is MIT. Posts, images, the headshot and the bio text are all rights reserved. See [LICENSE](LICENSE).

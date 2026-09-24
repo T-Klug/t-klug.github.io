@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/img/avatar3.png';
+
+interface Props {
+  caption: [string, string];
+  priority?: boolean;
+}
+
+const { caption, priority = false } = Astro.props;
+---
+
+<figure class="photo">
+  <Image
+    src={avatar}
+    alt="TJ Klug"
+    width={720}
+    widths={[240, 360, 720]}
+    sizes="(max-width: 720px) 240px, 360px"
+    format="webp"
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : undefined}
+  />
+  <figcaption>
+    <span>{caption[0]}</span>
+    <span>{caption[1]}</span>
+  </figcaption>
+</figure>
