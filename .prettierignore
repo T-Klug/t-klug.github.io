@@ -1,0 +1,10 @@
+dist
+.astro
+node_modules
+package-lock.json
+playwright-report
+test-results
+.lighthouseci
+public
+# Posts are checked by markdownlint; Prettier would rewrap prose.
+src/content

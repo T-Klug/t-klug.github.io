@@ -1,0 +1,9 @@
+---
+import { SOCIAL } from '../data/site';
+---
+
+<div class="social">
+  {SOCIAL.map((link) => (
+    <a href={link.href}>{link.label}</a>
+  ))}
+</div>

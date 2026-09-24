@@ -1,0 +1,13 @@
+{
+  "name": "TJ Klug",
+  "short_name": "TJ Klug",
+  "description": "TJ Klug on building with AI inside real software companies.",
+  "icons": [
+    { "src": "/assets/img/favicons/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/favicons/web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "start_url": "/",
+  "theme_color": "#0a0e17",
+  "background_color": "#0a0e17",
+  "display": "standalone"
+}

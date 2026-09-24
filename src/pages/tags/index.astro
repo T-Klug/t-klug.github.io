@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, tagUrl } from '../../lib/posts';
+
+const posts = await getPosts();
+const counts = new Map<string, number>();
+for (const tag of posts.flatMap((post) => post.data.tags)) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<Base title="Tags" description="Every tag used on tjklug.com." section="posts">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">
+        <b>Tags</b> / {tags.length}
+      </p>
+      <h1 class="display">Browse by tag</h1>
+    </header>
+    <ul class="tags tag-cloud">
+      {tags.map(([tag, count]) => (
+        <li>
+          <a href={tagUrl(tag)}>
+            #{tag}
+            <span>{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Portrait from '../components/Portrait.astro';
+import Social from '../components/Social.astro';
+import { ABOUT, EXPERIENCE, NUMBERS, SITE } from '../data/site';
+---
+
+<Base title="About" description={SITE.bio} section="about">
+  <div class="wrap">
+    <section class="hero" aria-labelledby="about">
+      <div>
+        <p class="eyebrow">
+          <b>About</b> / {SITE.name}
+        </p>
+        <h1 id="about" class="display">
+          {ABOUT.headline}
+        </h1>
+        <p class="lede">{ABOUT.intro}</p>
+        <p class="bio">{ABOUT.army}</p>
+        <p class="bio">{ABOUT.blog}</p>
+        <Social />
+      </div>
+      <Portrait caption={[SITE.name, 'Technology & AI']} priority />
+    </section>
+
+    <section aria-labelledby="numbers">
+      <div class="label-bar">
+        <h2 id="numbers">By the numbers</h2>
+      </div>
+      <div class="cells four">
+        {NUMBERS.map((item) => (
+          <div class="cell">
+            <div class="stat">{item.value}</div>
+            <div class="lab">{item.label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section aria-labelledby="experience">
+      <div class="label-bar">
+        <h2 id="experience">Experience</h2>
+      </div>
+      <ol class="xp rows">
+        {EXPERIENCE.map((job) => (
+          <li class="row">
+            <span class="yr">{job.years}</span>
+            <span class="co">
+              {job.company}
+              <small>{job.role}</small>
+            </span>
+            <span class="nt">{job.note}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</Base>

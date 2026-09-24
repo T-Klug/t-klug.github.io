@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Portrait from '../components/Portrait.astro';
+import Social from '../components/Social.astro';
+import PostTable from '../components/PostTable';
+import { SITE } from '../data/site';
+import { readingMinutes } from '../lib/format';
+import { getFeatured, getPosts, postUrl, summarize } from '../lib/posts';
+
+const posts = await getPosts();
+const featured = await getFeatured();
+---
+
+<Base>
+  <div class="wrap">
+    <section class="hero" aria-labelledby="intro">
+      <div>
+        <p class="eyebrow">
+          <b>{SITE.name}</b> / {SITE.role}
+        </p>
+        <h1 id="intro" class="display">
+          {SITE.headline}
+        </h1>
+        <p class="lede">{SITE.lede}</p>
+        <p class="bio">{SITE.bio}</p>
+        <Social />
+      </div>
+      <Portrait caption={['tj_klug', `${posts.length} posts`]} priority />
+    </section>
+
+    <section aria-labelledby="featured">
+      <div class="label-bar">
+        <h2 id="featured">Featured builds</h2>
+        <span>{String(featured.length).padStart(2, '0')}</span>
+      </div>
+      <div class="cells">
+        {featured.map((post) => (
+          <a class="cell" href={postUrl(post.id)}>
+            <div class="stat">{post.data.stat?.value}</div>
+            <div class="lab">{post.data.stat?.label}</div>
+            <h3 class="display">{post.data.title}</h3>
+            <div class="go">Read · {readingMinutes(post.body ?? '')} min →</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section id="posts" aria-label="All posts">
+      <PostTable client:load posts={posts.map(summarize)} filterable />
+    </section>
+  </div>
+</Base>

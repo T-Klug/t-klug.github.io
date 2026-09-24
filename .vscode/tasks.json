@@ -2,25 +2,21 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Jekyll Server",
-      "type": "shell",
-      "command": "./tools/run.sh",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "label": "Dev server",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "group": { "kind": "build", "isDefault": true },
       "problemMatcher": [],
-      "detail": "Runs the Jekyll server with live reload."
+      "detail": "Runs the site at localhost:4321 with live reload."
     },
     {
-      "label": "Build Jekyll Site",
-      "type": "shell",
-      "command": "./tools/test.sh",
-      "group": {
-        "kind": "build"
-      },
+      "label": "Check",
+      "type": "npm",
+      "script": "check",
+      "group": "test",
       "problemMatcher": [],
-      "detail": "Build the Jekyll site for production."
+      "detail": "Types, front matter, lint, unit tests, build and links."
     }
   ]
 }
