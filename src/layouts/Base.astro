@@ -1,5 +1,5 @@
 ---
-import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/archivo-narrow/700.css';
 import '@fontsource/ibm-plex-sans/400.css';
 import '@fontsource/ibm-plex-sans/400-italic.css';
 import '@fontsource/ibm-plex-sans/500.css';
@@ -9,7 +9,7 @@ import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
-import ThemeToggle from '../components/ThemeToggle';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { SITE, SOCIAL } from '../data/site';
 import avatar from '../assets/img/avatar3.png';
 
@@ -103,7 +103,7 @@ const analyticsId = import.meta.env.PROD ? SITE.analyticsId : null;
             About
           </a>
           <a href="/feed.xml">RSS</a>
-          <ThemeToggle client:load />
+          <ThemeToggle />
         </nav>
       </header>
     </div>

@@ -13,7 +13,7 @@
 
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, sfmono-regular, menlo, monospace;
-  --display: 'Archivo Variable', 'IBM Plex Sans', system-ui, sans-serif;
+  --display: 'Archivo Narrow', 'Arial Narrow', 'IBM Plex Sans', system-ui, sans-serif;
   --gutter: clamp(18px, 4vw, 32px);
 
   color-scheme: dark;
@@ -105,8 +105,6 @@ p {
 
 .display {
   font-family: var(--display);
-  font-stretch: 78%;
-  font-variation-settings: 'wdth' 78;
 }
 
 /* ---------- header and footer ---------- */
@@ -171,6 +169,16 @@ p {
 .mode svg {
   width: 16px;
   height: 16px;
+}
+
+/* Offer the theme you would switch to: a sun while dark, a moon while light. */
+.mode .moon,
+:root[data-theme='light'] .mode .sun {
+  display: none;
+}
+
+:root[data-theme='light'] .mode .moon {
+  display: block;
 }
 
 .site-foot {
@@ -378,7 +386,7 @@ a.cell:hover {
 .cell h3 {
   font-size: 21px;
   line-height: 1.18;
-  font-weight: 650;
+  font-weight: 700;
   margin-top: 6px;
 }
 
@@ -632,8 +640,6 @@ a.tr:hover .title {
 .prose h2,
 .prose h3 {
   font-family: var(--display);
-  font-stretch: 78%;
-  font-variation-settings: 'wdth' 78;
   font-weight: 700;
   line-height: 1.12;
   margin: 1.5em 0 0.55em;
