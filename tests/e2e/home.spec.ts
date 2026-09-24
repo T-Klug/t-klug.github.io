@@ -14,6 +14,17 @@ test.describe('home page', () => {
     await expect(page.locator('#posts .rows a')).toHaveCount(POSTS.length);
   });
 
+  test('featured cards and post rows show their header images', async ({ page }) => {
+    await page.goto('/');
+    const images = page.locator('section[aria-labelledby="featured"] img.cover, #posts .rows img.thumb');
+    await expect(images).toHaveCount(3 + POSTS.length);
+    for (const image of await images.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toHaveJSProperty('complete', true);
+      expect(await image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    }
+  });
+
   test('filters posts by topic and keeps the filter in the URL', async ({ page }) => {
     await page.goto('/');
     const rows = page.locator('#posts .rows a');

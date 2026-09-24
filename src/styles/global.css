@@ -343,6 +343,17 @@ a.cell:hover {
   background: var(--raised);
 }
 
+.cell .cover {
+  margin: -22px -22px 6px;
+  width: calc(100% + 44px);
+  max-width: none;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  /* Post art puts its headline at the top; keep it when a 3:2 image is cropped. */
+  object-position: top;
+  border-bottom: 1px solid var(--line);
+}
+
 .stat {
   font: 500 44px/1 var(--mono);
   color: var(--accent);
@@ -424,11 +435,23 @@ a.cell:hover {
 
 .tr {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) 150px 64px;
+  grid-template-columns: 120px 96px minmax(0, 1fr) 150px 56px;
   gap: 18px;
-  align-items: baseline;
-  padding-block: 13px;
+  align-items: center;
+  padding-block: 12px;
   border-bottom: 1px solid var(--line);
+}
+
+.tr .thumb {
+  width: 120px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--raised);
+}
+
+a.tr:hover .thumb {
+  border-color: var(--accent);
 }
 
 .tr.hd {
@@ -468,23 +491,41 @@ a.tr:hover .title {
   white-space: nowrap;
 }
 
+@media (width <= 900px) {
+  .tr {
+    grid-template-columns: 120px 96px minmax(0, 1fr) 56px;
+  }
+
+  .tr .tp,
+  .tr.hd span:nth-child(4) {
+    display: none;
+  }
+}
+
 @media (width <= 680px) {
   .tr {
-    grid-template-columns: 1fr auto;
-    gap: 6px 12px;
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+    gap: 4px 14px;
+    align-items: start;
   }
 
   .tr.hd {
     display: none;
   }
 
-  .tr .title {
-    grid-column: 1 / -1;
-    grid-row: 1;
+  .tr .thumb {
+    width: 96px;
+    grid-row: 1 / span 2;
   }
 
-  .tr .tp {
-    grid-column: 1;
+  .tr .title {
+    grid-column: 2 / -1;
+    grid-row: 1;
+    font-size: 16px;
+  }
+
+  .tr time {
+    grid-column: 2;
   }
 }
 

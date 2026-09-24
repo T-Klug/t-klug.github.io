@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Portrait from '../components/Portrait.astro';
 import Social from '../components/Social.astro';
@@ -9,6 +10,7 @@ import { getFeatured, getPosts, postUrl, summarize } from '../lib/posts';
 
 const posts = await getPosts();
 const featured = await getFeatured();
+const summaries = await Promise.all(posts.map(summarize));
 ---
 
 <Base>
@@ -36,6 +38,15 @@ const featured = await getFeatured();
       <div class="cells">
         {featured.map((post) => (
           <a class="cell" href={postUrl(post.id)}>
+            <Image
+              class="cover"
+              src={post.data.image}
+              alt=""
+              width={680}
+              widths={[360, 680]}
+              sizes="(max-width: 760px) 100vw, 340px"
+              format="webp"
+            />
             <div class="stat">{post.data.stat?.value}</div>
             <div class="lab">{post.data.stat?.label}</div>
             <h3 class="display">{post.data.title}</h3>
@@ -46,7 +57,7 @@ const featured = await getFeatured();
     </section>
 
     <section id="posts" aria-label="All posts">
-      <PostTable client:load posts={posts.map(summarize)} filterable />
+      <PostTable client:load posts={summaries} filterable />
     </section>
   </div>
 </Base>

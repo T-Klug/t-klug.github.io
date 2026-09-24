@@ -59,6 +59,7 @@ export default function PostTable({ posts, filterable = false, label = 'All post
         )}
       </div>
       <div className="tr hd" aria-hidden="true">
+        <span />
         <span>Date</span>
         <span>Title</span>
         <span>Topic</span>
@@ -68,6 +69,17 @@ export default function PostTable({ posts, filterable = false, label = 'All post
         {shown.map((post) => (
           <li key={post.slug}>
             <a className="tr" href={`/posts/${post.slug}/`}>
+              <img
+                className="thumb"
+                src={post.thumb.src}
+                srcSet={post.thumb.srcset}
+                sizes="120px"
+                width={post.thumb.width}
+                height={post.thumb.height}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <time dateTime={post.date}>{dotDate(new Date(post.date))}</time>
               <span className="title">{post.title}</span>
               <span className="tp">{TOPICS[post.topic]}</span>
