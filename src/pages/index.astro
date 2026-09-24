@@ -57,7 +57,7 @@ const summaries = await Promise.all(posts.map(summarize));
     </section>
 
     <section id="posts" aria-label="All posts">
-      <PostTable client:idle posts={summaries} filterable />
+      <PostTable client:visible={{ rootMargin: '600px' }} posts={summaries} filterable />
     </section>
   </div>
 </Base>

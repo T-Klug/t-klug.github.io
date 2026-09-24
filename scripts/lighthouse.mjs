@@ -11,6 +11,9 @@ import desktopConfig from 'lighthouse/core/config/desktop-config.js';
 // Mobile uses Lighthouse's default: a mid-range phone on a throttled 4G connection.
 const FORM_FACTORS = { mobile: undefined, desktop: desktopConfig };
 const PAGES = ['/', '/about/', '/posts/typesafe-jev-slopcheck/', '/posts/components-storybook-mocks/'];
+// Lighthouse scores swing between runs, and the first page loaded in a fresh Chrome is
+// consistently slow. Run each page several times and judge the median run, as Lighthouse CI does.
+const RUNS = 3;
 const MIN_SCORES = { performance: 0.9, accessibility: 0.95, 'best-practices': 0.9, seo: 0.9 };
 const MAX_BYTES = { total: 1_200_000, images: 600_000 };
 
@@ -72,11 +75,15 @@ try {
   for (const [formFactor, config] of Object.entries(FORM_FACTORS)) {
     for (const page of PAGES) {
       const label = `${formFactor} ${page}`;
-      const { lhr, report } = await lighthouse(
-        `${origin}${page}`,
-        { port: chrome.port, output: 'html', logLevel: 'error' },
-        config,
-      );
+      const runs = [];
+      for (let run = 0; run < RUNS; run += 1) {
+        runs.push(
+          await lighthouse(`${origin}${page}`, { port: chrome.port, output: 'html', logLevel: 'error' }, config),
+        );
+      }
+      runs.sort((a, b) => a.lhr.categories.performance.score - b.lhr.categories.performance.score);
+      const { lhr, report } = runs[Math.floor(RUNS / 2)];
+      const spread = runs.map((run) => Math.round(run.lhr.categories.performance.score * 100)).join('/');
       const name = page === '/' ? 'home' : page.replace(/^\/|\/$/g, '').replaceAll('/', '-');
       writeFileSync(join(REPORTS, `${formFactor}-${name}.html`), report);
 
@@ -87,7 +94,7 @@ try {
 
       const line = Object.entries(scores).map(([id, score]) => `${id} ${Math.round(score * 100)}`);
       console.log(
-        `${label}\n  ${line.join(' · ')} · ${Math.round(total / 1024)} KB total, ${Math.round(images / 1024)} KB images`,
+        `${label} (performance runs ${spread})\n  ${line.join(' · ')} · ${Math.round(total / 1024)} KB total, ${Math.round(images / 1024)} KB images`,
       );
 
       for (const [id, min] of Object.entries(MIN_SCORES)) {
