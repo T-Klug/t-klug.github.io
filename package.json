@@ -70,5 +70,10 @@
     ],
     "*.{css,json,yml,yaml}": "prettier --write",
     "src/content/**/*.{md,mdx}": "markdownlint-cli2 --fix"
+  },
+  "overrides": {
+    "micromark-extension-math": {
+      "katex": "^0.19.0"
+    }
   }
 }
