@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "astro dev",
@@ -55,7 +55,7 @@
     "jsdom": "^29.1.1",
     "lighthouse": "^13.5.0",
     "lint-staged": "^17.5.1",
-    "markdownlint-cli2": "^0.23.3",
+    "markdownlint-cli2": "^0.24.0",
     "node-html-parser": "^9.0.4",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.0.1",

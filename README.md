@@ -4,7 +4,7 @@ Personal site and blog of TJ Klug. Built with [Astro](https://astro.build) and R
 
 ## Run it locally
 
-Requires Node 22 or newer.
+Requires Node 24 or newer (see `.nvmrc`).
 
 ```sh
 npm install
