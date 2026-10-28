@@ -58,7 +58,7 @@
     "markdownlint-cli2": "^0.24.0",
     "node-html-parser": "^9.0.4",
     "prettier": "^3.9.9",
-    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-astro": "^1.1.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.1"
