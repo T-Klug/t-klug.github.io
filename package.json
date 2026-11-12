@@ -74,6 +74,9 @@
   "overrides": {
     "micromark-extension-math": {
       "katex": "^0.19.0"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
     }
   }
 }
