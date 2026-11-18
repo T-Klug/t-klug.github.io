@@ -22,11 +22,6 @@ export async function getPosts(): Promise<Post[]> {
   return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-export async function getFeatured(): Promise<Post[]> {
-  const posts = await getPosts();
-  return posts.filter((post) => post.data.featured).sort((a, b) => (a.data.featured ?? 0) - (b.data.featured ?? 0));
-}
-
 export async function summarize(post: Post): Promise<PostSummary> {
   const { image } = post.data;
   const height = Math.round((THUMB_WIDTH * image.height) / image.width);
