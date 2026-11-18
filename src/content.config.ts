@@ -29,22 +29,15 @@ const posts = defineCollection({
     },
   }),
   schema: ({ image }) =>
-    z
-      .object({
-        title: z.string().min(1),
-        date: z.coerce.date(),
-        topic: z.enum(TOPIC_IDS),
-        tags: z.array(z.string().regex(/^[a-z0-9-]+$/, 'Tags are lowercase words joined by hyphens')).default([]),
-        image: image(),
-        description: z.string().max(200).optional(),
-        featured: z.number().int().positive().optional(),
-        stat: z.object({ value: z.string().min(1), label: z.string().min(1) }).optional(),
-        draft: z.boolean().default(false),
-      })
-      .refine((post) => !post.featured || post.stat, {
-        message: 'Featured posts need a stat (value and label) for their card.',
-        path: ['stat'],
-      }),
+    z.object({
+      title: z.string().min(1),
+      date: z.coerce.date(),
+      topic: z.enum(TOPIC_IDS),
+      tags: z.array(z.string().regex(/^[a-z0-9-]+$/, 'Tags are lowercase words joined by hyphens')).default([]),
+      image: image(),
+      description: z.string().max(200).optional(),
+      draft: z.boolean().default(false),
+    }),
 });
 
 export const collections = { posts };

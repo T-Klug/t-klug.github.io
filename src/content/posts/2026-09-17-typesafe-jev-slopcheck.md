@@ -4,10 +4,6 @@ date: 2026-09-17
 topic: ai-engineering
 tags: [ai, typesafe, jev, code-review, agents, ci, how-to]
 image: ../../assets/img/slopcheck-jev.png
-featured: 1
-stat:
-  value: "$0.91"
-  label: "to build slopcheck, every debug run included"
 ---
 
 I built a CI tool this week that reads every pull request and says whether it is AI slop. It flags speculative abstractions, tests that only assert on mocks, swallowed errors, reinvented library code, narrating comments, and scope creep against the stated goal. It points at the exact lines. It runs in under a second per change. Building it, including every debug run, every fixture pass, and every time I re-ran the whole suite to chase a threshold, cost ninety-one cents.

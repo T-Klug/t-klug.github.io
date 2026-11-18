@@ -5,11 +5,15 @@ import Portrait from '../components/Portrait.astro';
 import Social from '../components/Social.astro';
 import PostTable from '../components/PostTable';
 import { SITE } from '../data/site';
-import { readingMinutes } from '../lib/format';
-import { getFeatured, getPosts, postUrl, summarize } from '../lib/posts';
+import { dotDate, excerpt, isoDate, readingMinutes } from '../lib/format';
+import { getPosts, postUrl, summarize } from '../lib/posts';
+import { TOPICS } from '../lib/topics';
+
+const FEATURED_COUNT = 3;
 
 const posts = await getPosts();
-const featured = await getFeatured();
+// Newest first, so the featured row always holds the latest articles.
+const featured = posts.slice(0, FEATURED_COUNT);
 const summaries = await Promise.all(posts.map(summarize));
 ---
 
@@ -32,7 +36,7 @@ const summaries = await Promise.all(posts.map(summarize));
 
     <section aria-labelledby="featured">
       <div class="label-bar">
-        <h2 id="featured">Featured builds</h2>
+        <h2 id="featured">Featured articles</h2>
         <span>{String(featured.length).padStart(2, '0')}</span>
       </div>
       <div class="cells">
@@ -47,9 +51,11 @@ const summaries = await Promise.all(posts.map(summarize));
               sizes="(max-width: 760px) 100vw, 340px"
               format="webp"
             />
-            <div class="stat">{post.data.stat?.value}</div>
-            <div class="lab">{post.data.stat?.label}</div>
+            <div class="lab">
+              <time datetime={isoDate(post.data.date)}>{dotDate(post.data.date)}</time> · {TOPICS[post.data.topic]}
+            </div>
             <h3 class="display">{post.data.title}</h3>
+            <p class="sum">{post.data.description ?? excerpt(post.body ?? '')}</p>
             <div class="go">Read · {readingMinutes(post.body ?? '')} min →</div>
           </a>
         ))}

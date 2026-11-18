@@ -390,6 +390,12 @@ a.cell:hover {
   margin-top: 6px;
 }
 
+.cell .sum {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
 .cell .go {
   font: 12px/1 var(--mono);
   color: var(--accent);

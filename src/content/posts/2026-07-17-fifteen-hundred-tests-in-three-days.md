@@ -4,10 +4,6 @@ date: 2026-07-17
 topic: ai-operations
 tags: [ai, claude-code, testing, agents, strategy]
 image: ../../assets/img/fifteen-hundred-tests.png
-featured: 2
-stat:
-  value: "1,500"
-  label: "regression tests in three days, across 50+ repos"
 ---
 
 A company has twenty years of code spread across fifty-plus repositories, and not one regression test that runs. There are tests in there somewhere. Dead Selenium suites nobody has executed since 2017. A `__tests__` folder someone built with real care in 2014 and abandoned when they left. Every release is a bet that nothing in two decades of accumulated behavior just silently broke.

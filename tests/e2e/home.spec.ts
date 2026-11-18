@@ -1,15 +1,19 @@
 import { POSTS, expect, test } from './fixtures';
 
 test.describe('home page', () => {
-  test('shows the profile, three featured builds and every post', async ({ page }) => {
+  test('shows the profile, the three latest articles as featured and every post', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/TJ Klug/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Technology and AI operator in private equity.');
     await expect(page.getByRole('img', { name: 'TJ Klug' })).toBeVisible();
 
+    await expect(page.getByRole('heading', { level: 2, name: 'Featured articles' })).toBeVisible();
     const featured = page.locator('section[aria-labelledby="featured"] a.cell');
     await expect(featured).toHaveCount(3);
-    await expect(featured.first()).toContainText('$0.91');
+    for (const [index, post] of POSTS.slice(0, 3).entries()) {
+      await expect(featured.nth(index)).toHaveAttribute('href', `/posts/${post.slug}/`);
+      await expect(featured.nth(index).getByRole('heading', { level: 3 })).toHaveText(post.title);
+    }
 
     await expect(page.locator('#posts .rows a')).toHaveCount(POSTS.length);
   });

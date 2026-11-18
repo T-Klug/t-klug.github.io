@@ -4,10 +4,6 @@ date: 2026-09-04
 topic: ai-engineering
 tags: [ai, claude-code, agents, local-llm, dgx-spark, how-to]
 image: ../../assets/img/hybrid.png
-featured: 3
-stat:
-  value: "2"
-  label: "DGX Sparks behind a single proxy file"
 ---
 
 Every serious Claude Code session I run now has two models in it. The conversation itself, the planning, the judgment calls, the code review: that is Claude Opus or Fable, on my Anthropic subscription. Every subagent, every fork, every worker in a dynamic workflow: that is a model running on two DGX Sparks in my office, for free, as many as I want in parallel.

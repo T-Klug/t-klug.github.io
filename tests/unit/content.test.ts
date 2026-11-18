@@ -36,16 +36,6 @@ describe.each(files)('%s', (name) => {
   });
 });
 
-describe('featured posts', () => {
-  const featured = files
-    .map((name) => ({ name, order: Number(frontMatter(name).featured) }))
-    .filter((post) => post.order > 0);
-
-  it('has three, numbered 1 to 3 with no gaps', () => {
-    expect(featured.map((post) => post.order).sort()).toEqual([1, 2, 3]);
-  });
-});
-
 describe('old site URLs', () => {
   const legacy = readFileSync(resolve(__dirname, '../fixtures/legacy-urls.txt'), 'utf8').split('\n').filter(Boolean);
 

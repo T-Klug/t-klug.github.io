@@ -30,8 +30,6 @@ Front matter:
 | `image`       | yes      | Relative path to the header image, e.g. `../../assets/img/slug.png` |
 | `tags`        | no       | Lowercase, hyphenated                                               |
 | `description` | no       | Search and link-preview text. Defaults to the first paragraph       |
-| `featured`    | no       | `1`, `2` or `3`: position on the home page. Needs `stat`            |
-| `stat`        | no       | `value` and `label` shown on the featured card                      |
 | `draft`       | no       | `true` keeps it off the live site                                   |
 
 Posts are served at `/posts/<slug>/`, the same URLs the old Jekyll site used. Posts can also be `.mdx` to embed React components.
